@@ -8,7 +8,7 @@ interface User {
 interface UserState {
   entities : User[];
   loading: 'idle'| 'pending' | 'succeeded' | 'failed';
-  error : {} | null;   
+  error : string | null;   
 }
 
 const initialState : UserState =  {
@@ -18,10 +18,19 @@ const initialState : UserState =  {
 }
 
 
-export const fetchUserById = createAsyncThunk('users/fetchUserByID', async (id: number) => {
-  const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-  const data = await response.json();
-  return data;
+export const fetchUserById = createAsyncThunk<any, number, {rejectValue: string}>('users/fetchUserByID', async (id: number, thunkAPI) => {
+
+  try {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+    if(!response.ok) {
+      return  thunkAPI.rejectWithValue(`Faild to fetch the data ID ${id}`)
+    }
+    const data = await response.json();
+    return data;
+
+  } catch(error) {
+    return thunkAPI.rejectWithValue((error as Error).message)
+  }
 })
 
 
