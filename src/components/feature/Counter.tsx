@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import { useAppDispatch,  useAppSelector} from '@/src/lib/hooks';
 
 import { increment, decrement, incrementByAmount } from '@/src/store/feature/counter/counterSlice';
+import { addExercise, setExercises, updateExercise } from '@/src/store/feature/workout/workoutSlice';
+
 import { fetchUserById } from '@/src/store/feature/users/usersSlice';
 
 
@@ -11,7 +13,15 @@ const dispatch = useAppDispatch();
 const count = useAppSelector((state) => state.counter.value);
 const [userId, setUserId] = useState('1')
 const {loading, error, entities} = useAppSelector((state) => state.users)
-console.log("entities", entities )
+const excersice = useAppSelector((state) => state.exercise)
+console.log("excersice", excersice )
+
+const workout = [
+  { id: 'ex3', title: 'Leg', completed: false },
+  { id: 'ex4', title: 'Shoulder', completed: true }
+]
+
+
 return (
   <div className='mx-auto w-full px-4'>
     <div className="card ">
@@ -60,7 +70,30 @@ return (
             </li>
           ))}
         </ul>
+
       </div>
+
+      <button 
+            onClick={() => dispatch(addExercise({ id: 'ex2', title: 'Pushups', completed: false }, ))}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded transition"
+          >
+            Add workout 
+          </button>
+
+           <button 
+            onClick={() => dispatch(setExercises(workout))}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded transition"
+          >
+            Set Exercises 
+          </button>
+           <button 
+            onClick={() => dispatch(updateExercise({id: 'ex2', 
+              changes: { title: 'Diamond Pushups' } 
+            }))}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded transition"
+          >
+            Update Exercises 
+          </button>
   </div>
 );
 }

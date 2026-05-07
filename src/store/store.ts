@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "@/src/store/feature/counter/counterSlice";
 import usersReducer from "@/src/store/feature/users/usersSlice";
 
+import workoutReducer from "@/src/store/feature/workout/workoutSlice";
 
 export const makeStore = () => {
   return configureStore ({
     reducer: {
       counter:  counterReducer,
-      users: usersReducer
+      users: usersReducer,
+      exercise: workoutReducer
     },
   })
 }
