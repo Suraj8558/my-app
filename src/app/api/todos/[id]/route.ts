@@ -74,5 +74,5 @@ export async function DELETE(
     return NextResponse.json({ error: "Todo not found" }, { status: 404 });
   }
 
-  return NextResponse.json(null, { status: 204 });
+  return new NextResponse(null, { status: 204 });
 }
