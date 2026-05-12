@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-export default async function Posts() {
+export default async function Page() {
   const data = await fetch("https://jsonplaceholder.typicode.com/posts")
   if (!data.ok) {
     notFound()
