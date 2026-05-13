@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import PostsGrid from "@/src/components/post/PostsGrid";
 
 export const dynamic = "force-static";
 
 export default async function Page() {
-  const data = await fetch("https://jsonplaceholder.typicode.com/posts", {
+  const data = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=9", {
     cache: "force-cache",
   })
   if (!data.ok) {
     notFound()
   }
-  const posts = await data.json();
+  const posts: Array<{ id: number; title: string; body: string }> =
+    await data.json();
 
   return (
     <div className="min-h-screen w-full bg-slate-50">
@@ -59,30 +61,7 @@ export default async function Page() {
           </span>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {posts?.map((post: any) => (
-            <Link
-              href={`/post/${post?.id}`}
-              key={post.id}
-              className="group flex h-full flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-md"
-            >
-              <div>
-                <h3 className="line-clamp-2 text-lg font-semibold tracking-tight text-slate-900 group-hover:text-slate-950">
-                  {post?.title}
-                </h3>
-                <p className="mt-2 line-clamp-3 text-sm text-slate-600">
-                  {post?.body}
-                </p>
-              </div>
-              <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
-                <span>View details</span>
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium">
-                  Post #{post?.id}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <PostsGrid posts={posts} />
       </main>
     </div>
   )
