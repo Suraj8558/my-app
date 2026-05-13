@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Todo } from "@/src/type";
+import EditForm from "@/src/components/todos/EditTodoForm";
 
 const fetchAllTodo = async (): Promise<Todo[]> => {
   const response = await fetch("/api/todos");
@@ -59,6 +60,9 @@ const deleteTodo = async (id: string): Promise<void> => {
 
 export default function TodoList() {
   const [title, setTitle] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [todoID, setTodoID] = useState<string>("");
+
   const queryClient = useQueryClient();
 
   const {
@@ -116,6 +120,11 @@ export default function TodoList() {
     createMutation.mutate(title.trim());
   };
 
+  const handleUpdatetodoID = (isEditing: boolean, todoID: string) => {
+    setIsEditing(isEditing);
+    setTodoID(todoID);
+  };
+
   const todos = todosQuery ?? [];
   const completedCount = todos.filter((t) => t.completed).length;
 
@@ -158,6 +167,7 @@ export default function TodoList() {
             {createMutation.isPending ? "Adding..." : "Add task"}
           </button>
         </form>
+        {isEditing && <EditForm  todoID={todoID} handleSubmit={handleUpdatetodoID}/>}
 
         {isLoading && (
           <p className="mt-4 text-sm text-slate-500">Loading todos...</p>
@@ -198,10 +208,13 @@ export default function TodoList() {
               </label>
               <button
                 type="button"
-                onClick={() => UpdateTodo.mutate({ id: todo.id, completed: !todo.completed, title: "this data has Updated" })}
+                onClick={() => handleUpdatetodoID(
+                  true,
+                  todo.id
+                )}
                 className="ml-3 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600 transition hover:bg-blue-100"
               >
-                Update
+                Edit
               </button>
 
               <button
