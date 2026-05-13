@@ -93,6 +93,23 @@ export default function TodoList() {
     },
   });
 
+
+  const UpdateTodo = useMutation({
+    mutationFn: ({
+      id,
+      completed,
+      title,
+    }: {
+      id: string;
+      completed: boolean;
+      title?: string;
+    }) => updateTodo(id, { completed, title }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title.trim()) return;
@@ -179,6 +196,13 @@ export default function TodoList() {
                   {todo.title}
                 </span>
               </label>
+              <button
+                type="button"
+                onClick={() => UpdateTodo.mutate({ id: todo.id, completed: !todo.completed, title: "this data has Updated" })}
+                className="ml-3 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600 transition hover:bg-blue-100"
+              >
+                Update
+              </button>
 
               <button
                 type="button"
