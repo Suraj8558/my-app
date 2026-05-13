@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export const dynamic = 60;
+export const revalidate = 60; 
 export async function generateStaticParams() {
   const data = await fetch("https://jsonplaceholder.typicode.com/posts");
   const posts = await data.json();
