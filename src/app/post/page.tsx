@@ -1,19 +1,7 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import PostsGrid from "@/src/components/post/PostsGrid";
+import PostsPaginated from "@/src/components/post/PostsPaginated";
 
-export const dynamic = "force-static";
-
-export default async function Page() {
-  const data = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=9", {
-    cache: "force-cache",
-  })
-  if (!data.ok) {
-    notFound()
-  }
-  const posts: Array<{ id: number; title: string; body: string }> =
-    await data.json();
-
+export default function Page() {
   return (
     <div className="min-h-screen w-full bg-slate-50">
       <header className="border-b bg-white/70 backdrop-blur">
@@ -52,17 +40,14 @@ export default async function Page() {
               Browse posts fetched from{" "}
               <span className="font-mono text-xs">
                 jsonplaceholder.typicode.com
-              </span>
-              .
+              </span>{" "}
+              with TanStack Query pagination.
             </p>
           </div>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
-            {posts.length} posts
-          </span>
         </div>
 
-        <PostsGrid posts={posts} />
+        <PostsPaginated />
       </main>
     </div>
-  )
+  );
 }
