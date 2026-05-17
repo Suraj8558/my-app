@@ -9,4 +9,18 @@ function abc() {
   abcd(i)
  }
 }
-abc()
+// abc()
+
+
+
+// FIRST CLASS FUNCTION 
+var test = function abac (xyz) {
+  return function dfsfsdf (){
+    console.log(xyz ," suraj"
+);
+      
+  }
+}
+test("hello")();
+
+
