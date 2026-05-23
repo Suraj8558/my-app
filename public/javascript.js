@@ -20,4 +20,19 @@ var test = function abac (xyz) {
 }
 test("hello")();
 
+function count () {
+  console.log("count"); 
+}
+
+function sun(count) {
+  setTimeout(function () {
+    console.log("THIS IS PARNET");
+    count()
+  }, 2000)
+}
+
+sun(count)
+
+
+
 
