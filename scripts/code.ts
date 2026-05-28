@@ -50,6 +50,39 @@ const sumOfNaturalNumber = ((No: number) => {
 // sumOfNaturalNumber(10)
 
 
+const products = [
+  { id: 1, name: "Wireless Mouse", category: "Electronics", price: 29, inStock: true },
+  { id: 2, name: "Yoga Mat", category: "Fitness", price: 45.00, inStock: false },
+  { id: 3, name: "Mechanical Keyboard", category: "Electronics", price: 29, inStock: true },
+  { id: 4, name: "Running Shoes", category: "Fitness", price: 120.00, inStock: true },
+  { id: 5, name: "Coffee Maker", category: "Kitchen", price: 50, inStock: true },
+  { id: 6, name: "Blender", category: "Kitchen", price: 50, inStock: false },
+  { id: 7, name: "Running Shoes", category: "Fitness", price: 600.00, inStock: true },
+
+];
+
+
+const isStock = products.filter((item) => item.price >= 50)
+
+// console.log("isStock", isStock);
+const groupedByCategory = products.reduce((acc: any, product) => {
+  const category = product.category;
+  
+  // If the category doesn't exist yet in our object, initialize it as an empty array
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  
+  // Push the product into its respective category array
+  acc[category].push(product);
+  
+  return acc;
+},{}); 
+console.log("groupedByCategory", groupedByCategory);
+
+
+
+
 
 
  
